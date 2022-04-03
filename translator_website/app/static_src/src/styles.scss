@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities {
+    @font-face {
+        font-family: "Hahmlet";
+        src: url(/static/fonts/Hahmlet.ttf);
+      }
+
+    .font-brand {
+        font-family: Hahmlet;
+    }
+
+}
+
+.icon, .text {
+    vertical-align: middle;
+    display: inline-block;
+  }
