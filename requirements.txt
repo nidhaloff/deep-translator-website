@@ -1,0 +1,5 @@
+deep-translator==1.9.1
+Django==4.1.4
+django-browser-reload==1.6.0
+iso639==0.1.4
+tailwind==3.1.5b0
