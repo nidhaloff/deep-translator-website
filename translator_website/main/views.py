@@ -7,8 +7,8 @@ from deep_translator import (GoogleTranslator,
                              MyMemoryTranslator,
                              YandexTranslator,
                              PapagoTranslator,
-                             DeepL,
-                             QCRI,
+                             DeeplTranslator,
+                             QcriTranslator,
                              single_detection,
                              batch_detection)
 from django.http import JsonResponse
