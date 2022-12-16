@@ -20,7 +20,7 @@ translator-env\Scripts\activate.bat
 ```
 To install dependencies, stay in translator-website, and type in cmd :
 ```bash
-python3 pip install -r ./requirements.txt
+python3 -m pip install -r ./requirements.txt
 ```
 
 ### Start project
