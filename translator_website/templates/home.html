@@ -1,140 +1,159 @@
 {% extends 'base.html' %}
 {% block content %}
-<body class="bg-brand-brown">
-	<div class="bg-brand-brown grid grid-rows-2 sm:grid-cols-2 divide-x-2 divide-brand-grey p-8 font-brand content-end relative">
-		<div class="bg-brand-white rounded-lg sm:rounded-l-xl sm:rounded-r-none min-h-[52px] relative">
-			<button class="font-bold text-lg text-center text-brand-dark flex w-full justify-center p-2" id="src-lang-btn">
-				<div class="leading-3 hover:bg-brand-brown/30 rounded-lg p-2">
-					<p class="text" id="source-lang" name="lang-en">English</p>
-					<span class="icon">
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+    <body class="bg-brand-brown">
+    <div class="bg-brand-brown grid grid-rows-2 sm:grid-cols-2 divide-x-2 divide-brand-grey p-8 font-brand content-end relative">
+        <div class="bg-brand-white rounded-lg sm:rounded-l-xl sm:rounded-r-none min-h-[52px] relative">
+            <button class="font-bold text-lg text-center text-brand-dark flex w-full justify-center p-2"
+                    id="src-lang-btn">
+                <div class="leading-3 hover:bg-brand-brown/30 rounded-lg p-2">
+                    <p class="text" id="source-lang" name="lang-en">English</p>
+                    <span class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
 						</svg>
 					</span>
-				</div>
-			</button>
-			<div class="bg-brand-grey h-0.5"></div>
-			<form class="p-4">
-				{% csrf_token %}
-				<textarea name="src" id="src" class="text-brand-dark bg-inherit w-full h-36 p-2 focus:outline-none"></textarea>
-			</form>
-		</div>
-		<div class="bg-brand-white rounded-lg sm:rounded-r-xl sm:rounded-l-none mt-3 sm:mt-0 ">
-			<div class="">
-				<button class="font-bold text-lg text-center text-brand-dark flex w-full justify-center p-2" id="tar-lang-btn">
-					<div class="leading-3 hover:bg-brand-brown/30 rounded-lg p-2">
-						<p class="text" id="target-lang" name="lang-hi">Hindi</p>
-						<span class="icon">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </div>
+            </button>
+            <div class="bg-brand-grey h-0.5"></div>
+            <form class="p-4">
+                {% csrf_token %}
+                <label for="src"></label>
+
+                <textarea name="src" id="src"
+                          class="text-brand-dark bg-inherit w-full h-36 p-2 focus:outline-none"></textarea>
+            </form>
+        </div>
+        <div class="bg-brand-white rounded-lg sm:rounded-r-xl sm:rounded-l-none mt-3 sm:mt-0 ">
+            <div class="">
+                <button class="font-bold text-lg text-center text-brand-dark flex w-full justify-center p-2"
+                        id="tar-lang-btn">
+                    <div class="leading-3 hover:bg-brand-brown/30 rounded-lg p-2">
+                        <p class="text" id="target-lang" name="lang-hi">Hindi</p>
+                        <span class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
 							</svg>
 						</span>
-					</div>
-				</button>
-				<div id="tar-lang" class="absolute left-10 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" tabindex="-1">
-					<div class="py-1" role="none">
-						<div class="grid grid-cols-6 w-max" name="tar-language-container">
-							<!-- <div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30" tabindex="-1" id="menu-item-0">Account settings</div> -->
-						</div>
-					</div>
-				</div>
-				<div id="src-lang" class="absolute left-10 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" tabindex="-1">
-					<div class="py-1" role="none">
-						<div class="grid grid-cols-6 w-max" name="src-language-container">
-							<!-- <div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30" tabindex="-1" id="menu-item-0">Account settings</div> -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="bg-brand-grey h-0.5"></div>
-			<div class="w-full h-36 p-6 text-brand-dark" id="res"><div>
-		</div>
-	</div>
-</body>
+                    </div>
+                </button>
+                <div id="tar-lang"
+                     class="absolute left-10 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden"
+                     tabindex="-1">
+                    <div class="py-1" role="none">
+                        <div class="grid grid-cols-6 w-max" name="tar-language-container">
+                            <!-- <div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30" tabindex="-1" id="menu-item-0">Account settings</div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id="src-lang"
+                     class="absolute left-10 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden"
+                     tabindex="-1">
+                    <div class="py-1" role="none">
+                        <div class="grid grid-cols-6 w-max" name="src-language-container">
+                            <!-- <div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30" tabindex="-1" id="menu-item-0">Account settings</div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-brand-grey h-0.5"></div>
+            <div class="w-full h-36 p-6 text-brand-dark" id="res">
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-var LANGUAGE_SELECETION_OPENED = false;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        let LANGUAGE_SELECTION_OPENED = false;
 
-const delay = 1000;
+        const delay = 1000;
 
-let timer
-$("#src").on('input', code => {
-  clearTimeout(timer);
-  timer = setTimeout(x => {
-	submitData();
-  }, delay, code)
-})
+        let timer;
+        const src = $("#src");
 
-function submitData() {
-	var payload = {'src-lang': $("#source-lang").attr('name').slice(5), 'tar-lang': $("#target-lang").attr('name').slice(5), 'text': $("#src").val()}
-	$.ajax({
-		url: "/api/translate",
-		headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
-		method: 'POST',
-		data: payload,
-		success: function(result) {
-			$("#res").html(result.result.replace('\n', '<br>'));	
-		}
-	})
-}
+        src.on('input', code => {
+            clearTimeout(timer);
+            timer = setTimeout(submitData, delay, code);
+        })
 
-$("#src-lang-btn").click( function () { selectSrcLanguage()})
-$("#tar-lang-btn").click( function () { selectTarLanguage()})
+        function submitData() {
+            const payload = {
+                'src-lang': $("#source-lang").attr('name').slice(5),
+                'tar-lang': $("#target-lang").attr('name').slice(5),
+                'text': src.val()
+            }
+            $.ajax({
+                url: "/api/translate",
+                headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
+                method: 'POST',
+                data: payload,
+                success: function (result) {
+                    $("#res").html(result.result.replace('\n', '<br>'));
+                }
+            })
+        }
 
-function selectSrcLanguage() {
-	elem = $('#src-lang');
-	target = $('#source-lang');
-	if (elem.hasClass("hidden")) {
-		elem.removeClass("hidden");
-		LANGUAGE_SELECETION_OPENED = true;
-		$("div[name=src-language-container]>*").on("click", function(e) {
-			if (LANGUAGE_SELECETION_OPENED) {
-				target.text(e.target.textContent)
-				target.attr('name', e.target.getAttribute('name').slice(5))
-				x = submitData();
-				elem.addClass("hidden");
-				LANGUAGE_SELECETION_OPENED=false;
-				return;
-			}
-		})
-		return;
-	}
-	else elem.addClass("hidden");
-	
-}
-function selectTarLanguage() {
-	elem = $('#tar-lang');
-	target = $('#target-lang');
-	if (elem.hasClass("hidden")) {
-		elem.removeClass("hidden");
-		LANGUAGE_SELECETION_OPENED = true;
-		$("div[name=tar-language-container]>*").on("click", function(e) {
-			if (LANGUAGE_SELECETION_OPENED) {
-				target.text(e.target.textContent)
-				target.attr('name', e.target.getAttribute('name'))
-				x = submitData();
-				elem.addClass("hidden");
-				LANGUAGE_SELECETION_OPENED=false;
-				return;
-			}
-		})
-		return;
-	}
-	else elem.addClass("hidden");
-	
-}
+        $("#src-lang-btn").click(function () {
+            selectSrcLanguage()
+        })
+        $("#tar-lang-btn").click(function () {
+            selectTarLanguage()
+        })
 
-fetch("/static/utilities/languages-list.json").then(response => response.json()).then(data => {
-	Object.values(data).forEach(language => {
-		$("div[name=src-language-container]").append('<div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
-		+ Object.keys(data).find(key => data[key] === language) +'">' + language +'</div>');
-		$("div[name=tar-language-container]").append('<div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
-		+ Object.keys(data).find(key => data[key] === language) +'">' + language +'</div>');
-	});
-});
+        function selectSrcLanguage() {
+            const elem = $('#src-lang');
+            const target = $('#source-lang');
+            if (elem.hasClass("hidden")) {
+                elem.removeClass("hidden");
+                LANGUAGE_SELECTION_OPENED = true;
+                $("div[name=src-language-container]>*").on("click", function (e) {
+                    if (LANGUAGE_SELECTION_OPENED) {
+                        target.text(e.target.textContent);
+                        target.attr('name', e.target.getAttribute('name').slice(5));
+                        submitData();
+                        elem.addClass("hidden");
+                        LANGUAGE_SELECTION_OPENED = false;
+                    }
+                })
+            } else {
+                elem.addClass("hidden");
+            }
+        }
 
-</script>
+        function selectTarLanguage() {
+            const elem = $('#tar-lang');
+            const target = $('#target-lang');
+            if (elem.hasClass("hidden")) {
+                elem.removeClass("hidden");
+                LANGUAGE_SELECTION_OPENED = true;
+                $("div[name=tar-language-container]>*").on("click", function (e) {
+                    if (LANGUAGE_SELECTION_OPENED) {
+                        target.text(e.target.textContent)
+                        target.attr('name', e.target.getAttribute('name'))
+                        submitData();
+                        elem.addClass("hidden");
+                        LANGUAGE_SELECTION_OPENED = false;
+                    }
+                })
+            } else elem.addClass("hidden");
+        }
+
+        fetch("/static/utilities/languages-list.json").then(response => response.json()).then(data => {
+            Object.values(data).forEach(language => {
+                $("div[name=src-language-container]").append('<div class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
+                    + Object.keys(data).find(key => data[key] === language) + '">' + language + '</div>');
+                $("div[name=tar-language-container]").append('<div class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
+                    + Object.keys(data).find(key => data[key] === language) + '">' + language + '</div>');
+            });
+        });
+
+    </script>
 {% endblock %}
