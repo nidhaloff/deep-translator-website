@@ -63,6 +63,20 @@
                 </div>
             </div>
         </div>
+        <div>
+            <label for="translator">Choose a translator:</label>
+            <select name="translator" id="translator" onchange="submitData()">
+                <option selected value="google">Google Translate</option>
+                <option value="deepl">DeepL</option>
+                <option value="microsoft">Microsoft Translator</option>
+                <option value="pons">Pons</option>
+                <option value="linguee">Linguee</option>
+                <option value="mymemory">MyMemory</option>
+                <option value="yandex">Yandex</option>
+                <option value="papago">Papago</option>
+                <option value="qcri">QCRI</option>
+            </select>
+        </div>
     </div>
     </body>
 {% endblock %}
@@ -86,17 +100,25 @@
 
         function submitData() {
             const payload = {
-                'src-lang': $("#source-lang").attr('name').slice(5),
-                'tar-lang': $("#target-lang").attr('name').slice(5),
-                'text': src.val()
+                'source': $("#source-lang").attr('name').slice(5),
+                'target': $("#target-lang").attr('name').slice(5),
+                'text': src.val(),
+                'translator': $("#translator").val()
             }
+
             $.ajax({
                 url: "/api/translate",
                 headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
                 method: 'POST',
                 data: payload,
                 success: function (result) {
-                    $("#res").html(result.result.replace('\n', '<br>'));
+                    const res = $("#res");
+                    if(result.error){
+                        // TO DO : Handle error other way than in HTML
+                        res.html(result.error.replace('\n', '<br>'));
+                    } else {
+                        res.html(result.result.replace('\n', '<br>'));
+                    }
                 }
             })
         }
@@ -117,7 +139,7 @@
                 $("div[name=src-language-container]>*").on("click", function (e) {
                     if (LANGUAGE_SELECTION_OPENED) {
                         target.text(e.target.textContent);
-                        target.attr('name', e.target.getAttribute('name').slice(5));
+                        target.attr('name', e.target.getAttribute('name'))
                         submitData();
                         elem.addClass("hidden");
                         LANGUAGE_SELECTION_OPENED = false;
