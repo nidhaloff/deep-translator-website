@@ -78,6 +78,7 @@
             </select>
         </div>
     </div>
+    <button onclick="swap_languages()"><img class="" src="../public/icons/double_arrow.png" alt="Swap languages !"/></button>
     </body>
 {% endblock %}
 
@@ -113,7 +114,7 @@
                 data: payload,
                 success: function (result) {
                     const res = $("#res");
-                    if(result.error){
+                    if (result.error) {
                         // TO DO : Handle error other way than in HTML
                         res.html(result.error.replace('\n', '<br>'));
                     } else {
@@ -167,6 +168,19 @@
                     }
                 })
             } else elem.addClass("hidden");
+        }
+
+        function swap_languages() {
+            const src = $('#source-lang');
+            const tar = $('#target-lang');
+            const src_name = src.attr('name');
+            const tar_name = tar.attr('name');
+            let tmp = src.text();
+            src.text(tar.text());
+            tar.text(tmp);
+            src.attr('name', tar_name);
+            tar.attr('name', src_name);
+            submitData();
         }
 
         fetch("/static/utilities/languages-list.json").then(response => response.json()).then(data => {
