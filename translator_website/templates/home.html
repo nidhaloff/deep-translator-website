@@ -139,6 +139,7 @@
                 $("div[name=src-language-container]>*").on("click", function (e) {
                     if (LANGUAGE_SELECTION_OPENED) {
                         target.text(e.target.textContent);
+                        console.log(e.target.getAttribute('name'))
                         target.attr('name', e.target.getAttribute('name'))
                         submitData();
                         elem.addClass("hidden");
