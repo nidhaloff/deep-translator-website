@@ -78,7 +78,10 @@
             </select>
         </div>
     </div>
-    <button onclick="swap_languages()"><img class="" src="../public/icons/double_arrow.png" alt="Swap languages !"/></button>
+    {% load static %}
+    <button onclick="swap_languages()"><img class="" src="{% static 'icons/double-arrow.png' %}"
+                                            alt="Swap languages !"/>
+    </button>
     </body>
 {% endblock %}
 
