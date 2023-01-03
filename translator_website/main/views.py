@@ -69,7 +69,6 @@ def translate(request):
         target_language = request.POST.get('target')
         translator = request.POST.get('translator')
         source_language = request.POST.get('source')
-        print("target : " + target_language + " source : " + source_language + " translator : " + translator)
 
         # Default translator is google
         if not translator:
