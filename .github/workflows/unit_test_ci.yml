@@ -1,0 +1,15 @@
+name: test CI
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+jobs:
+  test_project:
+    runs-on: ubuntu-latest # operating system your code will run on
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip install -r ./translator_website/requirements.txt # install all our dependencies for the project
+      - run: pytest ./translator_website # run pytest test
+      - run: flake8 ./translator_website # run flake8 test
