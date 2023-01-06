@@ -1,3 +1,4 @@
+from deep_translator.exceptions import ElementNotFoundInGetRequest, RequestError
 from dotenv import dotenv_values
 from django.shortcuts import render
 from deep_translator import (
@@ -11,7 +12,7 @@ from deep_translator import (
     DeeplTranslator,
     QcriTranslator,
     single_detection,
-    batch_detection
+    batch_detection,
 )
 from django.http import JsonResponse
 
@@ -50,7 +51,7 @@ translators = {
     },
     'papago': {
         "translator": PapagoTranslator,
-        "requiredAttr": ["target"]
+        "requiredAttr": ["target", "secret_key", "client_id"]
     },
     'deepl': {
         "translator": DeeplTranslator,
@@ -65,11 +66,15 @@ translators = {
 
 def translate(request):
     if request.method == "POST":
-
         # Get POST params
         target_language = request.POST.get('target')
-        translator = request.POST.get('translator')
+        passed_translators = request.POST.getlist('translators[]')
         source_language = request.POST.get('source')
+        text = request.POST.get('text')
+        if not text or text == "":
+            return JsonResponse({})
+        if not source_language:
+            return JsonResponse({'error': 'Source language required : fill with "auto" if you don\'t know...'})
 
         result = {}
         for translator in passed_translators:
