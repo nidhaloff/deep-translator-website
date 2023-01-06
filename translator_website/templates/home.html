@@ -82,6 +82,10 @@
     <button onclick="swap_languages()"><img class="" src="{% static 'icons/double-arrow.png' %}"
                                             alt="Swap languages !"/>
     </button>
+    <br>
+    <label>
+        <input id="compareBool" type="checkbox" onclick="submitData()">Translate with all translators
+    </label>
     </body>
 {% endblock %}
 
@@ -103,11 +107,22 @@
         })
 
         function submitData() {
+            const translatorsToPass = []
+
+            if($("#compareBool").is(":checked")){
+                $("#translator option").each(function() {
+                    translatorsToPass.push($(this).val())
+                })
+            }
+            else {
+                translatorsToPass.push($("#translator").val())
+            }
+
             const payload = {
                 'source': $("#source-lang").attr('name').slice(5),
                 'target': $("#target-lang").attr('name').slice(5),
                 'text': src.val(),
-                'translator': $("#translator").val()
+                'translators':  translatorsToPass
             }
 
             $.ajax({
@@ -118,10 +133,17 @@
                 success: function (result) {
                     const res = $("#res");
                     if (result.error) {
-                        // TO DO : Handle error other way than in HTML
                         res.html(result.error.replace('\n', '<br>'));
                     } else {
-                        res.html(result.result.replace('\n', '<br>'));
+                        const results = Object.entries(result);
+                        if(results.length > 1){
+                            const translations = Object.entries(result).map(([translator, translation]) => {
+                                return `<li><h2>${translator}</h2><br><p>${translation}</p></li>`
+                            })
+                            res.html(`<div><h1>Compare:</h1><ul>${translations}</ul></div>`)
+                        } else if (results.length === 1){
+                            res.html(results[0][1])
+                        }
                     }
                 }
             })
