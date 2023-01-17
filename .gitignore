@@ -1,3 +1,5 @@
+translatorEnv
+node_modules
 .env
 # Django #
 *.log
