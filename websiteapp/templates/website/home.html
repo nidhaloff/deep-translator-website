@@ -204,6 +204,11 @@
             // Get the selected index for the output language
             const outputLanguageIndex = outputLanguageSelect.prop("selectedIndex");
 
+            // Update the label for the input language
+            $("#select2-input-language-container").text(outputLanguageSelect.find("option:selected").text());
+            // Update the label for the output language
+            $("#select2-output-language-container").text(inputLanguageSelect.find("option:selected").text());
+
             // Get the text for the output textarea
             const resText = res.val();
 
