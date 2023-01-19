@@ -1,0 +1,19 @@
+{% load static %}
+{% load tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
+    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'css/dist/select2.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/dist/dark-mode.css' %}">
+    <script src="{% static '/scripts/jquery.min.js' %}"></script>
+    <script src="{% static '/scripts/select2.min.js' %}"></script>
+</head>
+{% block content %}{% endblock %}
+{% block scripts %}{% endblock %}
+</html>
