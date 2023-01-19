@@ -8,7 +8,7 @@
                 <div class="mode-btn-container">
                     <button onclick="toggleDarkMode()" id="mode-btn-container"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg">
-                        Dark Mode
+                        ☀️
                     </button>
                 </div>
                 <h2 class="mb-4 border-b-2 border-b-slate-500 text-2xl font-medium">Deep Translator</h2>
@@ -233,10 +233,10 @@
         function toggleDarkMode() {
             if (body.hasClass("dark-mode")) {
                 body.removeClass("dark-mode");
-                btn.html("Dark Mode");
+                btn.html("☀️");
             } else {
                 body.addClass("dark-mode");
-                btn.html("Light Mode");
+                btn.html("🌙");
             }
         }
 
