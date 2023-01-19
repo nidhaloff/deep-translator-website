@@ -22,3 +22,5 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("api/translate", views.translate, name="translate"),
 ]
+
+handler404 = 'websiteapp.views.handler404'

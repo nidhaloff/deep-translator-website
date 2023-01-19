@@ -5,24 +5,26 @@
     <div class="mx-auto">
         <div class="flex min-h-screen justify-center bg-slate-200 pt-5 pb-2">
             <div class="mx-4 w-full rounded-lg bg-white p-6 sm:w-2/3 md:w-1/3 lg:w-1/2">
+                <div class="mode-btn-container">
+                    <button onclick="toggleDarkMode()" id="mode-btn-container"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg">
+                        Dark Mode
+                    </button>
+                </div>
                 <h2 class="mb-4 border-b-2 border-b-slate-500 text-2xl font-medium">Deep Translator</h2>
                 <div class="relative mb-4">
-                    <label for="translator-select" class="mb-2 block font-medium text-gray-700">Translator</label>
-                    <select id="translator-select" name="translator-select" onchange="submitData()"
-                            class="focus:shadow-outline-blue focus:border-black-300 w-full cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:outline-none">
-                        <option disabled>Select a translator</option>
-                        <option selected>Google</option>
-                        <option>DeepL</option>
-                        <option>MicrosoftTranslate</option>
+                    <label for="translator-select" class="mb-2 block font-medium text-gray-700">Translators</label>
+                    <select id="translator-select" name="translator-select" onchange="submitData()" multiple
+                            style="width: 100%"
+                            class="focus:shadow-outline-blue focus:border-black-300 cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:outline-none">
                     </select>
                 </div>
 
                 <div class="mb-4">
                     <div class="relative mb-4">
                         <label for="input-language" class="mb-2 block font-medium text-gray-700">Text input</label>
-                        <select id="input-language" name="input-language" onchange="submitData()"
-                                class="focus:shadow-outline-blue w-full cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:border-blue-300 focus:outline-none">
-                            <option disabled selected>Select input language</option>
+                        <select id="input-language" name="input-language" onchange="submitData()" style="width: 100%"
+                                class="focus:shadow-outline-blue cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:border-blue-300 focus:outline-none">
                         </select>
                     </div>
                     <form>
@@ -36,9 +38,8 @@
                 <div class="mb-4">
                     <div class="relative mb-4">
                         <label for="output-language" class="mb-2 block font-medium text-gray-700">Text output</label>
-                        <select id="output-language" name="output-language" onchange="submitData()"
-                                class="focus:shadow-outline-blue w-full cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:border-orange-300 focus:outline-none">
-                            <option disabled selected>Select output language</option>
+                        <select id="output-language" name="output-language" onchange="submitData()" style="width: 100%"
+                                class="focus:shadow-outline-blue cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:border-orange-300 focus:outline-none">
                         </select>
                     </div>
                     <textarea id="res" class="w-full resize-none rounded-lg bg-orange-100 p-2" rows="4"
@@ -71,16 +72,15 @@
                 </div>
                 <p class="mt-3">NB : <i>DeepTranslator</i> translate your text when you change it. No need to search
                     about a "Translate" button, just wait a bit 😇</p>
+
             </div>
         </div>
     </div>
+
     </body>
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         const delay = 1000;
 
@@ -102,8 +102,25 @@
         // Get navigator language
         const navigatorLanguage = navigator.language.substring(0, 2);
 
+        // Get translators options
+        fetch("theme/static/utilities/translators-list.json").then(response => response.json()).then(data => {
+            const entries = Object.entries(data);
+
+            entries.forEach(([code, name], index) => {
+                // Create option
+                const translatorOption = $("<option>");
+                translatorOption.val(code);
+                translatorOption.text(name);
+                translatorSelect.append(translatorOption);
+
+                if (index === 0) {
+                    translatorOption.attr("selected", "selected");
+                }
+            });
+        });
+
         // Get translator languages options
-        fetch("/static/utilities/languages-list.json").then(response => response.json()).then(data => {
+        fetch("theme/static/utilities/languages-list.json").then(response => response.json()).then(data => {
             Object.entries(data).forEach(([code, name], _, arr) => {
                 // Create options
                 const inputLanguageOption = $("<option>");
@@ -134,11 +151,23 @@
         })
 
         function submitData() {
+            const translatorsToPass = translatorSelect.val();
+            console.log(translatorsToPass);
+
+            /*if($("#compareBool").is(":checked")){
+                $("#translator option").each(function() {
+                    translatorsToPass.push($(this).val())
+                })
+            }
+            else {
+                translatorsToPass.push($("#translator").val())
+            }*/
+
             const payload = {
-                'text': src.val(),
                 'source': inputLanguageSelect.val(),
                 'target': outputLanguageSelect.val(),
-                'translator': translatorSelect.val()
+                'text': src.val(),
+                'translators': translatorsToPass
             }
 
             $.ajax({
@@ -147,7 +176,19 @@
                 method: 'POST',
                 data: payload,
                 success: function (result) {
-                    res.val(result.text.replace('\n', '<br>'));
+                    if (result.error) {
+                        res.html(result.error.replace('\n', '<br>'));
+                    } else {
+                        const results = Object.entries(result);
+                        if (translatorSelect.val().length > 1) {
+                            const translations = Object.entries(result).map(([translator, translation]) => {
+                                return `- ${translator}:&#13;&#10; ${translation}`
+                            })
+                            res.html(`Compare:&#13;&#10;${translations.join('&#13;&#10;')}`)
+                        } else if (results.length === 1) {
+                            res.html(results[0][1])
+                        }
+                    }
                 }
             })
         }
@@ -180,5 +221,30 @@
             // Submit the data
             submitData();
         }
+
+        const body = $("body");
+        const btn = $("#mode-btn-container");
+
+        function toggleDarkMode() {
+            if (body.hasClass("dark-mode")) {
+                body.removeClass("dark-mode");
+                btn.html("Dark Mode");
+            } else {
+                body.addClass("dark-mode");
+                btn.html("Light Mode");
+            }
+        }
+
+        translatorSelect.select2({
+            placeholder: "Select translators",
+            allowClear: true,
+            width: "resolve"
+        });
+        inputLanguageSelect.select2({
+            width: "resolve"
+        });
+        outputLanguageSelect.select2({
+            width: "resolve"
+        });
     </script>
 {% endblock %}
