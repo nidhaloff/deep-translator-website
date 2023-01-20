@@ -4,7 +4,7 @@
     <body>
     <div class="relative mx-auto">
         <div class="flex min-h-screen justify-center">
-            <div class="my-3 w-full rounded-lg bg-white p-6 sm:w-2/3 md:w-1/3 lg:w-1/2">
+            <div class="my-3 mx-6 w-full rounded-lg bg-white p-6 sm:w-2/3 md:w-3/4 lg:w-1/2 opacity-95">
                 <div class="mode-btn-container">
                     <button onclick="toggleDarkMode()" id="mode-btn-container"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg">
@@ -14,7 +14,7 @@
                 <h2 class="mb-4 border-b-2 border-b-slate-500 text-2xl font-medium">Deep Translator</h2>
                 <div class="relative mb-4">
                     <label for="translator-select" class="mb-2 block font-medium text-gray-700">Translators</label>
-                    <select id="translator-select" name="translator-select" onchange="submitData()" multiple
+                    <select id="translator-select" name="translator-select" onchange="handleTranslatorsChange()" multiple
                             style="width: 100%"
                             class="focus:shadow-outline-blue focus:border-black-300 cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:outline-none">
                     </select>
@@ -37,13 +37,15 @@
                 </div>
                 <div class="mb-4">
                     <div class="relative mb-4">
-                        <label for="output-language" class="mb-2 block font-medium text-gray-700">Text output</label>
+                        <label for="output-language" class="mb-2 block font-medium text-gray-700">Text output(s)</label>
                         <select id="output-language" name="output-language" onchange="submitData()" style="width: 100%"
                                 class="focus:shadow-outline-blue cursor-pointer appearance-none rounded-lg border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight hover:border-gray-500 focus:border-orange-300 focus:outline-none">
                         </select>
                     </div>
-                    <textarea id="res" class="w-full resize-none rounded-lg bg-orange-100 p-2" rows="2"
-                              disabled></textarea>
+                    <div id="outputs">
+                        <textarea id="res" class="w-full resize-none rounded-lg bg-orange-100 p-2" rows="2"
+                                  disabled></textarea>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 grid-rows-2 gap-4">
                     <button class="relative flex items-center justify-center gap-2 rounded-lg bg-red-500 p-2 text-white hover:bg-red-600">
@@ -74,7 +76,7 @@
                     about a "Translate" button, just wait a bit 😇</p>
             </div>
             <div class="h-full w-full area">
-                <ul class="circles">
+                <ul class="h-full w-full circles">
                     <li></li>
                     <li></li>
                     <li></li>
@@ -112,6 +114,9 @@
         // Get translator select
         const translatorSelect = $("#translator-select");
 
+        // Get output div
+        const outputDiv = $("#outputs");
+
         // Get navigator language
         const navigatorLanguage = navigator.language.substring(0, 2);
 
@@ -127,10 +132,25 @@
                 translatorSelect.append(translatorOption);
 
                 if (index === 0) {
-                    translatorOption.attr("selected", "selected");
+                    translatorSelect.val([code]).change();
                 }
             });
         });
+
+        function handleTranslatorsChange() {
+            // For each translators, we have to handle the output textarea
+            const selectedTranslators = translatorSelect.val();
+
+            const htmlToAdd = selectedTranslators.reduce((acc, translator) => {
+                const title = translator.charAt(0).toUpperCase() + translator.slice(1);
+                return acc + `<div class='mb-4'> <label for='res-${translator}'>${title}</label><textarea id='res-${translator}' name='res-${translator}' class='w-full resize-none rounded-lg bg-orange-100 p-2' rows='2' disabled></textarea></div>`;
+            }, "");
+
+            outputDiv.html(htmlToAdd);
+
+            // At the end, submit data
+            submitData();
+        }
 
         // Get translator languages options
         fetch("theme/static/utilities/languages-list.json").then(response => response.json()).then(data => {
@@ -165,7 +185,6 @@
 
         function submitData() {
             const translatorsToPass = translatorSelect.val();
-            console.log(translatorsToPass);
 
             /*if($("#compareBool").is(":checked")){
                 $("#translator option").each(function() {
@@ -190,17 +209,20 @@
                 data: payload,
                 success: function (result) {
                     if (result.error) {
-                        res.html(result.error.replace('\n', '<br>'));
+                        console.log(result.error);
                     } else {
                         const results = Object.entries(result);
-                        if (translatorSelect.val().length > 1) {
-                            const translations = Object.entries(result).map(([translator, translation]) => {
-                                return `- ${translator}:&#13;&#10; ${translation}`
-                            })
-                            res.html(`Compare:&#13;&#10;${translations.join('&#13;&#10;')}`)
-                        } else if (results.length === 1) {
-                            res.html(results[0][1])
-                        }
+
+                        translatorsToPass.forEach(translator => {
+                            // If a selected translator is not in the results, we display an error on it
+                            if (!results.find(([translatorName]) => translatorName === translator)) {
+                                $(`#res-${translator}`).attr("placeholder", "Can't translate with this translator. Maybe try to change your environnement settings ?")
+                            }
+                            // Else, we display it
+                            else {
+                                $(`#res-${translator}`).val(results.find(([translatorName]) => translatorName === translator)[1]);
+                            }
+                        });
                     }
                 }
             })

@@ -78,7 +78,7 @@ def translate(request):
         source_language = request.POST.get('source')
         text = request.POST.get('text')
         if not text or text == "":
-            return JsonResponse({})
+            return JsonResponse({translator: "" for translator in passed_translators})
         if not source_language:
             return JsonResponse({'error': 'Source language required : fill with "auto" if you don\'t know...'})
 
