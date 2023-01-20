@@ -143,7 +143,7 @@
 
             const htmlToAdd = selectedTranslators.reduce((acc, translator) => {
                 const title = translator.charAt(0).toUpperCase() + translator.slice(1);
-                return acc + `<div class='mb-4'> <label for='res-${translator}'>${title}</label><textarea id='res-${translator}' name='res-${translator}' class='w-full resize-none rounded-lg bg-orange-100 p-2' rows='2' disabled></textarea></div>`;
+                return acc + `<div class='mb-4'><label for='res-${translator}'>${title}</label><div class="relative"><textarea id='res-${translator}' name='res-${translator}' class='w-full resize-none rounded-lg bg-orange-100 p-2' rows='2' disabled></textarea><button title="Copy" onclick="copyToClipboard('#res-${translator}')" class="py-1 px-2 text-xs rounded-lg bg-gray-100 hover:bg-gray-300 absolute right-3 top-3">🗒️</button></div></div>`;
             }, "");
 
             outputDiv.html(htmlToAdd);
@@ -226,6 +226,16 @@
                     }
                 }
             })
+        }
+
+        function copyToClipboard(textarea_id) {
+            console.log(textarea_id)
+            // Get textarea element
+            const textarea = $(textarea_id)
+
+            // Get element textarea text
+            const text = textarea.val();
+            navigator.clipboard.writeText(text);
         }
 
         function swapLanguages() {
