@@ -32,6 +32,10 @@
                         <textarea id="src"
                                   class="w-full resize-none rounded-lg bg-sky-100 p-2 focus:bg-sky-200 focus:outline-none"
                                   rows="2" placeholder="Type text to here translate (max. 50 characters)" maxlength="50"></textarea>
+                        <div id="the-count">
+                            <span id="current">0</span>
+                            <span id="maximum">/ 50</span>
+                        </div>
                     </form>
 
                 </div>
@@ -296,5 +300,16 @@
         outputLanguageSelect.select2({
             width: "resolve"
         });
+
+        $('textarea').keyup(function() {
+
+  let characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+
+  current.text(characterCount);
+
+});
     </script>
 {% endblock %}

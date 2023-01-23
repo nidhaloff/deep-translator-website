@@ -2,7 +2,11 @@
     position: absolute;
     z-index: -1;
 }
-
+#the-count {
+  float: right;
+  padding: 0.1rem 0 0 0;
+  font-size: 0.875rem;
+}
 .circles {
     position: absolute;
     top: 0;
