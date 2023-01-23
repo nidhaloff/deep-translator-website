@@ -1,0 +1,65 @@
+body.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+body.dark-mode .bg-slate-200 {
+    background-color: black;
+}
+
+body.dark-mode .bg-white {
+    background-color: #222;
+}
+
+.mode-btn-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+body.dark-mode .mode-btn-container {
+    background-color: black;
+}
+
+body.dark-mode .bg-sky-100 {
+    background-color: #1b1b1b;
+}
+
+body.dark-mode .bg-orange-100 {
+    background-color: black;
+}
+
+body.dark-mode label {
+    color: white;
+}
+
+body.dark-mode .select2-dropdown {
+    background-color: black;
+    color: white;
+}
+
+body.dark-mode .select2-results__option--selected {
+    background-color: grey;
+}
+
+body.dark-mode .select2-selection__choice {
+    color: black;
+}
+
+body.dark-mode .select2-selection__choice {
+    background-color: black;
+}
+
+body.dark-mode .select2-search__field {
+    color: black;
+}
+
+
+body.dark-mode .select2-selection__clear {
+    color: black;
+}
+
+
+body.dark-mode .area {
+    background-color: black;
+}

@@ -55,7 +55,6 @@ atlassian-ide-plugin.xml
 # Distribution / packaging
 .Python build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
