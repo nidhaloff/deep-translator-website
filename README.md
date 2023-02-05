@@ -10,7 +10,6 @@ Django-tailwind Website for deep-translator project : https://github.com/nidhalo
 - ✅ Choose among Google, Microsoft, DeepL, Pons, Yandex, Linguee, MyMemory, Papago, Qcri
 - ✅ Swap languages
 - ✅ Compare translations from different providers
-- ✅ Plan the music everyday by panel Admin
 - ⬜️ Translate files
 - ⬜️ See differents translations from same provider
 - ⬜️ Vocal pronunciation
