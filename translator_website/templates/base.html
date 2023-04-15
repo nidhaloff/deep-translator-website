@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="">
+		<link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+	</head>
+
+	<style>
+		html {
+			scroll-behavior: smooth;
+		}
+	</style>
+	<body>
+		<nav class="fixed z-10 w-full bg-white dark:bg-transparent md:absolute">
+			<div class="container m-auto px-2 md:px-12 lg:px-7">
+				<div class="flex flex-wrap items-center justify-between py-3 gap-6 md:py-4 md:gap-0">
+					<input type="checkbox" name="toggle_nav" id="toggle_nav" class="peer hidden">
+					<div class="w-full px-6 flex justify-between lg:w-max md:px-0 z-30">
+						<a href="#" aria-label="logo" class="flex space-x-2 items-center">
+							<img src="https://github.com/nidhaloff/deep-translator/blob/master/assets/icon.jpg?raw=true" class="w-12" alt="tailus logo" width="144" height="133">
+							<span class="text-2xl font-bold text-green-900 dark:text-white">Deep Translator</span>
+						</a>
+		
+						<div class="flex items-center lg:hidden max-h-10">
+							<label role="button" for="toggle_nav" aria-label="humburger" id="hamburger" class="relative w-10 h-auto p-2">
+								<div id="line"
+									class="m-auto h-0.5 w-6 rounded bg-green-900 dark:bg-white transition duration-300"></div>
+								<div id="line2"
+									class="m-auto mt-2 h-0.5 w-6 rounded bg-green-900 dark:bg-white transition duration-300">
+								</div>
+							</label>
+						</div>
+					</div>
+		
+					<label role="button" for="toggle_nav" class="hidden peer-checked:block fixed w-full h-full left-0 top-0 z-10 bg-gray-50 bg-opacity-30 backdrop-blur backdrop-filter"></label>
+					<div class="hidden peer-checked:flex w-full flex-col lg:flex lg:flex-row justify-end z-30 items-center gap-y-6 p-6 rounded-xl bg-white lg:gap-y-0 lg:p-0 md:flex-nowrap lg:bg-transparent lg:w-7/12">
+						<div class="text-gray-600 lg:pr-4 w-full">
+							<ul class="tracking-wide font-medium  text-sm 
+							flex flex-col gap-y-6 lg:gap-y-0 lg:flex-row w-full">
+								<li>
+									<a href="/#package" class="block md:px-4 transition hover:text-lime-700">
+										<span>Download</span>
+									</a>
+								</li>
+								<li>
+									<a href="/#translators" class="block md:px-4 transition hover:text-lime-700">
+										<span>Translators</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://github.com/nidhaloff/deep-translator-website" target="_blank" class="block md:px-4 transitio hover:text-lime-700">
+										<span>Github</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+		
+						<div class="w-full min-w-max space-y-2 
+						border-yellow-200 lg:space-y-0 sm:w-max">
+							<button type="button" title="Contribute to code" class="w-full py-3 px-6 text-center rounded-full transition active:bg-lime-200 focus:bg-lime-100 sm:w-max">
+								<span class="block text-gray-800 font-semibold text-sm">
+									<a href="https://github.com/nidhaloff/deep-translator/issues/144" target="_blank">Contribute</a>
+								</span>
+							</button>
+							<button type="button" title="Launch app" class="w-full py-3 px-6 text-center rounded-full transition bg-lime-300 hover:bg-lime-100 active:bg-lime-400 focus:bg-lime-300 sm:w-max">
+								<span class="block font-semibold text-sm">
+									<a href="app/" target="_blank">Launch app</a>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		{% block content %} 
+		{% endblock %}
+
+		{% block scripts %}
+		{% endblock %}
+	</body>
+
+</html>

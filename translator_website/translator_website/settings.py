@@ -38,9 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
-    'app',
     'main',
-    'django_browser_reload'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'translator_website.urls'
@@ -125,8 +122,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-TAILWIND_APP_NAME = 'app'
-
-NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
-

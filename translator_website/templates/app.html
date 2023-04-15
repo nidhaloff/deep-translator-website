@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{% block title %} Deep Translate Web app {% endblock %}
+{% block content %}
+{% csrf_token %}
+<div class="relative">
+    <div class="container m-auto px-6 pt-32 md:px-12 lg:pt-[4.8rem] lg:px-7">
+		<div class="m-auto text-center md:w-8/10 lg:w-6/9 flex justify-center items-center">
+			
+		</div>
+	</div>
+	<div class="grid rounded border w-[90%] mx-auto my-10">
+		<div class="flex justify-evenly h-14 items-center w-full">
+			<div @click.away="openSort = false" class="relative" x-data="{ openSort: false,engTextData:'English', langCode:''}" x-init="$watch('langCode', value => {$('input[name=src-lang]')[0].value = value; $(`#tar-text`).html(''); submitData()})">
+				<button @click="openSort = !openSort" class="flex  text-black bg-gray-100 hover:bg-gray-200 p-4 ml-2 items-center justify-start py-2 text-sm font-semibold text-left bg-transparent">
+					<span x-text="engTextData" class="capitalize text-base"></span>
+					<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openSort, 'rotate-0': !openSort}" class="w-4 h-4  transition-transform duration-200 transform "><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+				</button>
+				<div x-show="openSort" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
+				  class="absolute z-50 w-max origin-top-left px-2 pt-2 pb-2 bg-white rounded-md shadow-lg">
+				    <input type="text" class="border p-1.5 my-1 rounded focus:outline-none w-full" placeholder="Search ..." onkeyup="getFilteredItems(this, 'sr-lang');">
+					<input type="hidden" name="src-lang" value="en">
+					<div class="dark-mode:bg-gray-700 max-h-52 overflow-y-auto">
+						<div class="flex pr-4 gap-4" id="sr-lang">
+						</div>
+					</div>
+				</div>
+			</div> 
+			<div class="flex items-center ">
+				<p class="text-lg text-gray-700 font-brand -mt-1">Select Engine: &ensp;</p>
+				<div @click.away="openSort = false" class="relative" x-data="{ openSort: false, engText:'Google Translate' }">
+					<button @click="openSort = !openSort" class="flex  text-black bg-gray-100 p-4 items-center justify-start w-max  py-2 text-sm font-semibold text-left hover:bg-gray-200 ">
+						<span x-text="engText" id="t-engine"></span>
+						<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openSort, 'rotate-0': !openSort}" class="w-4 h-4  transition-transform duration-200 transform "><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+					</button>
+					<div x-show="openSort" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute z-50 w-max  origin-top-right">
+						<div class="px-2 pt-2 pb-2 bg-white rounded-md shadow-lg dark-mode:bg-gray-700">
+							<div class="flex flex-col" @click="$(`#tar-text`).html(''); onEngineChange(); submitData()">
+								<a @click="engText='Google Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">Google Translate</p>
+								</a>
+								<a @click="engText='Microsoft Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">Microsoft Translate</p>
+								</a>
+								<a @click="engText='MyMemory Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">MyMemory Translate</p>
+								</a>
+								<a @click="engText='PONS Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">PONS Translate</p>
+								</a>
+								<a @click="engText='Linguee Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">Linguee Translate</p>
+								</a>
+								<a @click="engText='Yandex Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">Yandex Translate</p>
+								</a>
+								<a @click="engText='Papago Translate',openSort=!openSort" class="flex flex-row items-start rounded-lg bg-transparent p-2 hover:bg-gray-200 " href="#">
+									<p class="font-semibold">Papago Translate</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div> 
+			</div>
+			<div @click.away="openSort = false" class="relative" x-data="{ openSort: false,engTextData:'Hindi', langCode:''}" x-init="$watch('langCode', value => {$('input[name=tar-lang]')[0].value = value; $(`#tar-text`).html(''); submitData()})">
+				<button @click="openSort = !openSort" class="flex text-black bg-gray-100 hover:bg-gray-200 p-4 mr-auto items-center justify-start py-2 text-sm font-semibold text-left bg-transparent">
+					<span x-text="engTextData" class="capitalize text-base"></span>
+					<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openSort, 'rotate-0': !openSort}" class="w-4 h-4  transition-transform duration-200 transform "><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+				</button>
+				<div x-show="openSort" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95"
+				class="absolute z-50 w-max right-0 px-2 pt-2 pb-2 bg-white rounded-md shadow-lg">
+					<input type="text" class="border p-1.5 my-1 rounded focus:outline-none w-full" placeholder="Search ..." onkeyup="getFilteredItems(this, 'tg-lang');">
+					<input type="hidden" name="tar-lang" value="hi">
+					<div class="dark-mode:bg-gray-700 max-h-52 overflow-y-auto">
+						<div class="flex pr-4 gap-4" id="tg-lang">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid grid-cols-2">
+			<div>
+				<textarea id="src-text" cols="30" rows="10" class="w-full border-t border-r focus:outline-none p-6 font-brand"></textarea>
+			</div>
+			<div>
+				<div class="w-full border-t p-6 font-brand">
+					<div class="lds-ellipsis hidden" id="loader"><div></div><div></div><div></div><div></div></div>
+					<div id="tar-text"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="//unpkg.com/alpinejs" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+	var languages = []
+	function onEngineChange() {
+		var srcLangs = "<div class='w-full'>"
+		var counter = 0
+		$.ajax({
+			url: '/api/get-lang',
+			method: 'POST',
+			headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
+			data: {'engine': $("#t-engine").text()},
+			success: function(result) {
+				for(const lang in result) {
+					srcLangs += `<a @click="langCode='${result[lang]}',openSort=!openSort,engTextData='${lang}'" id="lang-${result[lang]}" class="flex rounded-lg bg-transparent p-2 hover:bg-gray-200" href="#">
+					<p class="font-semibold capitalize">${lang}</p>
+					</a>`;
+					counter += 1;
+				}
+				$("#sr-lang").html(srcLangs+"</div>");
+				$("#tg-lang").html(srcLangs+"</div>");
+				submitData();
+				delete srcLangs;
+				delete counter;
+			}
+		})
+	}
+
+	function getFilteredItems(elem, container) {
+		var search = $.trim($(elem).val());
+      	
+		$(`#${container} a`).each(function() {
+			option = $(this);
+			if (option.text().trim().toLowerCase().startsWith(search)) {
+				option.show();
+			} else {
+				option.hide();
+			}
+        })
+	}
+
+	function swapLanguages() {
+		var srcLang = $("input[name=src-lang]")[0].value
+		var tarLang = $("input[name=tar-lang]")[0].value
+		$("input[name=src-lang]")[0].value = tarLang
+		$("input[name=tar-lang]")[0].value = srcLang;
+		$("#result-"+tarLang)[0].click()
+		$("#result-"+srcLang)[0].click()
+	}
+
+	let timer;
+
+	$("#src-text").on('input', code => {
+		$("#tar-text").html('');
+		$("#loader").fadeIn();
+		clearTimeout(timer);
+		timer = setTimeout(x => {
+			submitData();
+		}, 1000, code)
+	})
+
+	function submitData() {
+		var payload = {'src-lang': $("input[name=src-lang]")[0].value, 'tar-lang': $("input[name=tar-lang]")[0].value, 'text': $("#src-text").val(), 'engine': $("#t-engine").text()}
+		$("#loader").fadeIn();
+		$.ajax({
+			url: "/api/translate",
+			headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
+			method: 'POST',
+			data: payload,
+			success: function(result) {
+				$("#loader").fadeOut(100, () => $("#tar-text").html(result.result.replace(/\r\n|\r|\n/g,"<br/>")));
+			}
+		})
+	}
+
+	$("textarea").keyup(function(e) {
+		while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+			$(this).height($(this).height()+1);
+		};
+	});
+
+	$(document).ready(() => {onEngineChange()});
+</script>
+<script>
+var LANGUAGE_SELECETION_OPENED = false;
+
+const delay = 1000;
+
+$("#src-lang-btn").click( function () { selectSrcLanguage()})
+$("#tar-lang-btn").click( function () { selectTarLanguage()})
+
+function selectSrcLanguage() {
+	elem = $('#src-lang');
+	target = $('#source-lang');
+	if (elem.hasClass("hidden")) {
+		elem.removeClass("hidden");
+		LANGUAGE_SELECETION_OPENED = true;
+		$("div[name=src-language-container]>*").on("click", function(e) {
+			if (LANGUAGE_SELECETION_OPENED) {
+				target.text(e.target.textContent)
+				target.attr('name', e.target.getAttribute('name').slice(5))
+				x = submitData();
+				elem.addClass("hidden");
+				LANGUAGE_SELECETION_OPENED=false;
+				return;
+			}
+		})
+		return;
+	}
+	else elem.addClass("hidden");
+	
+}
+function selectTarLanguage() {
+	elem = $('#tar-lang');
+	target = $('#target-lang');
+	if (elem.hasClass("hidden")) {
+		elem.removeClass("hidden");
+		LANGUAGE_SELECETION_OPENED = true;
+		$("div[name=tar-language-container]>*").on("click", function(e) {
+			if (LANGUAGE_SELECETION_OPENED) {
+				target.text(e.target.textContent)
+				target.attr('name', e.target.getAttribute('name'))
+				x = submitData();
+				elem.addClass("hidden");
+				LANGUAGE_SELECETION_OPENED=false;
+				return;
+			}
+		})
+		return;
+	}
+	else elem.addClass("hidden");
+	
+}
+
+// fetch("/static/utilities/languages-list.json").then(response => response.json()).then(data => {
+// 	Object.values(data).forEach(language => {
+// 		$("div[name=src-language-container]").append('<div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
+// 		+ Object.keys(data).find(key => data[key] === language) +'">' + language +'</div>');
+// 		$("div[name=tar-language-container]").append('<div href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-brand-brown/30 rounded-lg cursor-pointer" tabindex="-1" name="lang-'
+// 		+ Object.keys(data).find(key => data[key] === language) +'">' + language +'</div>');
+// 	});
+// });
+
+</script>
+{% endblock %}

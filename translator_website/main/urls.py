@@ -19,5 +19,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path('app/', views.app, name="app"),
     path('api/translate', views.translate),
+    path('api/get-lang', views.getLanguages),
 ]
